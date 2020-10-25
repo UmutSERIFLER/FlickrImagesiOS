@@ -1,0 +1,41 @@
+# Uncomment the next line to define a global platform for your project
+# platform :ios, '11.0'
+
+
+def default_flickrIOS_pods 
+ # Comment the next line if you're not using Swift and don't want to use dynamic frameworks
+  use_frameworks!
+
+  pod 'Kingfisher', '~> 5.13'
+  pod 'ReachabilitySwift'
+
+end
+
+target 'FlickrImagesiOS' do
+  # Comment the next line if you don't want to use dynamic frameworks
+  use_frameworks!
+
+  # Pods for FlickrImagesiOS
+
+  default_flickrIOS_pods
+
+  target 'FlickrImagesiOSTests' do
+    inherit! :search_paths
+    # Pods for testing
+  end
+
+  target 'FlickrImagesiOSUITests' do
+    # Pods for testing
+  end
+
+end
+
+target 'FlickrImagesiOSDev' do
+  # Comment the next line if you don't want to use dynamic frameworks
+  use_frameworks!
+
+  # Pods for FlickrImagesiOSDev
+  
+  default_flickrIOS_pods
+
+end
