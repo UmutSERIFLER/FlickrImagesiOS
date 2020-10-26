@@ -50,7 +50,6 @@ class FlickrViewModel: BaseViewModel<UICollectionView> {
             }
         }
         DispatchQueue.main.async {
-            //self.baseModelDelegation?.updateOwnerUI()
             completion?()
         }
         
@@ -130,12 +129,8 @@ extension FlickrViewModel: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-
-        if isSearchModeActive {
-            return
-        }
         
-        guard self.flickrResult!.photos.page <= self.flickrResult!.photos.pages else {
+        guard self.flickrResult!.photos.page <= self.flickrResult!.photos.pages || isSearchModeActive else {
             return
         }
         if self.flickrResult!.photos.photo.count > 15 && indexPath.row == (self.flickrResult!.photos.photo.count - 15) {
@@ -172,12 +167,6 @@ extension FlickrViewModel: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
-//
-//        let widthForAllCells = collectionView.frame.width - self.insets.left - self.insets.right - collectionView.contentInset.left - collectionView.contentInset.right - ((CGFloat(self.numberOfCellsForCurrentDevice) - 1) * self.minimumInterItemSpacing)
-//
-//        let cellWidth = widthForAllCells / CGFloat(self.numberOfCellsForCurrentDevice)
-//        let cellHeight : CGFloat = cellHeightForCellsInRow(at: indexPath, cellsPerRow: self.numberOfCellsForCurrentDevice)
-//
         if isSearchModeActive {
             return CGSize(width: collectionView.frame.width, height: 40)
         }

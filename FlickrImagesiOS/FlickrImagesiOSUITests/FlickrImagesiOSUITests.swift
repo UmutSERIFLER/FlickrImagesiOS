@@ -27,6 +27,23 @@ class FlickrImagesiOSUITests: XCTestCase {
         let app = XCUIApplication()
         app.launch()
 
+      
+        
+        let imageCollectionView = app.collectionViews["imagesCollectionView"]
+        imageCollectionView.swipeUp()
+        imageCollectionView.swipeUp()
+        
+        imageCollectionView.swipeDown()
+        imageCollectionView.swipeDown()
+        
+        
+        let searchBar = app.descendants(matching: .any).matching(identifier: "imageSearchBar").firstMatch
+        searchBar.tap()
+        searchBar.typeText("dogs")
+        XCUIApplication().keyboards.buttons["search"].tap()
+        sleep(3)
+        imageCollectionView.swipeUp()
+        imageCollectionView.swipeUp()
         // Use recording to get started writing UI tests.
         // Use XCTAssert and related functions to verify your tests produce the correct results.
     }

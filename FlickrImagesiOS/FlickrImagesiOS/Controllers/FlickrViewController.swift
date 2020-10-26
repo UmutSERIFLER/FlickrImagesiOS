@@ -19,6 +19,7 @@ class FlickrViewController: BaseViewController<UICollectionView> {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.searchBar.accessibilityLabel = "imageSearchBar"
         self.imagesCollectionView.accessibilityLabel = "imagesCollectionView"
         let layout = imagesCollectionView.collectionViewLayout as? UICollectionViewFlowLayout // casting is required because UICollectionViewLayout doesn't offer header pin. Its feature of UICollectionViewFlowLayout
         layout?.sectionHeadersPinToVisibleBounds = true

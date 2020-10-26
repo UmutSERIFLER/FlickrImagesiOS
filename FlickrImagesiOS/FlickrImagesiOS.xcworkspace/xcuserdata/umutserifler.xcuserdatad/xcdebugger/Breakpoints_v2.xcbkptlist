@@ -7,65 +7,33 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "48DF401D-FB43-4D05-8101-B01C262E3D5F"
+            uuid = "B8FF35A4-F052-45AD-853F-E2B469FCB68C"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "FlickrImagesiOS/Models/ViewModels/FlickrViewModel.swift"
+            filePath = "FlickrImagesiOSUITests/FlickrImagesiOSUITests.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "120"
-            endingLineNumber = "120"
-            landmarkName = "collectionView(_:cellForItemAt:)"
+            startingLineNumber = "32"
+            endingLineNumber = "32"
+            landmarkName = "testExample()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "998E1D56-87B5-404F-A973-45EF644150B9"
+            uuid = "6F4620F9-2627-4C0B-8C00-912175E73693"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "FlickrImagesiOS/Models/ViewModels/FlickrViewModel.swift"
+            filePath = "FlickrImagesiOSUITests/FlickrImagesiOSUITests.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "156"
-            endingLineNumber = "156"
-            landmarkName = "collectionView(_:didSelectItemAt:)"
+            startingLineNumber = "41"
+            endingLineNumber = "41"
+            landmarkName = "testExample()"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "998E1D56-87B5-404F-A973-45EF644150B9 - cf8cf37c5c47d8c4"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "FlickrImagesiOSDev.FlickrViewModel.collectionView(_: __C.UICollectionView, didSelectItemAt: Foundation.IndexPath) -&gt; ()"
-                  moduleName = "FlickrImagesiOSDev"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/umutserifler/Documents/workspace/PersonalProjects/iOS/FlickriOSImageBranches/FlickriOSDevelopBranch/FlickrImagesiOS/FlickrImagesiOS/Models/ViewModels/FlickrViewModel.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "146"
-                  endingLineNumber = "146"
-                  offsetFromSymbolStart = "1544">
-               </Location>
-               <Location
-                  uuid = "998E1D56-87B5-404F-A973-45EF644150B9 - 6f00616e7dfea97a"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 () -&gt; () in FlickrImagesiOSDev.FlickrViewModel.collectionView(_: __C.UICollectionView, didSelectItemAt: Foundation.IndexPath) -&gt; ()"
-                  moduleName = "FlickrImagesiOSDev"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/umutserifler/Documents/workspace/PersonalProjects/iOS/FlickriOSImageBranches/FlickriOSDevelopBranch/FlickrImagesiOS/FlickrImagesiOS/Models/ViewModels/FlickrViewModel.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "147"
-                  endingLineNumber = "147"
-                  offsetFromSymbolStart = "28">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>
