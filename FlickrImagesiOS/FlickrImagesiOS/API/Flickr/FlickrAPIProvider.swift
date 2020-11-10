@@ -37,8 +37,8 @@ class FlickrAPIProvider: NSObject {
     }
     
     private func getURLRequest(serviceName: String, requestType: HttpRequestType = .get, body: Data? = nil, completionHandler: @escaping (URLRequest) -> ()) {
-        let validUrl =  serviceName.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
-        var urlRequest = URLRequest(url: URL(string: validUrl!)!)
+        let validUrl =  serviceName.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
+        var urlRequest = URLRequest(url: URL(string: validUrl)!)
         switch requestType {
         case .get,
              .delete,

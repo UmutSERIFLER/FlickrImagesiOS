@@ -9,4 +9,10 @@ import UIKit
 
 class SearchedWordCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var searchTextLabel: UILabel!
+    
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        self.searchTextLabel.text = ""
+    }
 }

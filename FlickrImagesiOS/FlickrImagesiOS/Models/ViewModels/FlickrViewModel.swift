@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import Kingfisher
 
 class FlickrViewModel: BaseViewModel<UICollectionView> {
     
@@ -14,65 +13,56 @@ class FlickrViewModel: BaseViewModel<UICollectionView> {
     
     var lastSearches : [String] = []
     
-    override func fetchData(completion: (() -> Void)? = nil) {
-        self.clearCache()
-        FlickrAPIProvider.shared.search(flickrSearch: self.flickrSearch) { (result) in
-            print(self.flickrSearch.searchString)
+    @objc override func fetchData(completion: ((String?) -> Void)? = nil) {
+        FlickrAPIProvider.shared.search(flickrSearch: self.flickrSearch) { [weak self] (result) in
+            guard let `self` = self else { return }
             switch result {
             case .success(let successResult):
                 self.setResults(flickrSuccessResult: successResult, completion: completion)
-                DispatchQueue.main.async {
-                    self.baseModelDelegation?.updateOwnerUI()
-                }
             case .failure(let error):
-                self.baseModelDelegation?.showAlert(message: error.msg!)
-                print(error)
-            }
-            DispatchQueue.main.async {
-                completion?()
-            }
+                self.baseModelDelegation.showAlert(message: error.msg!)
+                completion?(nil)
+            }            
         }
     }
     
     
-    override func setResults(flickrSuccessResult: FlickrResultModel, completion: (() -> Void)? = nil) {
+    override func setResults(flickrSuccessResult: FlickrResultModel, completion: ((String?) -> Void)? = nil) {
         if self.flickrResult != nil {
             self.flickrResult!.photos.photo += flickrSuccessResult.photos.photo
-            DispatchQueue.main.async {
-                self.listView?.reloadData()
-            }
+            self.listView.reloadDataMainThread()
         }else {
             self.flickrResult = flickrSuccessResult
-            DispatchQueue.main.async {
-                self.listView!.delegate = self
-                self.listView!.dataSource = self
-                self.listView?.reloadData()
-            }
+            performSelector(onMainThread: #selector(updateListViewResources), with: nil, waitUntilDone: false)
+            self.baseModelDelegation.updateOwnerUI()
         }
-        DispatchQueue.main.async {
-            completion?()
-        }
-        
+            completion?(nil)
     }
     
-    override func updateSettings(data: Any? = nil) {
+    @objc func updateListViewResources() {
+        self.listView.delegate = self
+        self.listView.dataSource = self
+        self.listView.reloadDataMainThread()
+    }
+    
+    override func updateSettings(data: Any) {
         
         let settingsModel : FlickrViewModelSettings = data as! FlickrViewModelSettings
         if settingsModel.isSearchModeActive {
             self.lastSearches = AppFlowManager.shared.values(key: .lastSearches) as? [String] ?? []
             self.isSearchModeActive = true
-            self.listView?.reloadData()
+            self.listView.reloadDataMainThread()
         } else {
             self.isSearchModeActive = false
             guard let searchWord = settingsModel.data as? String else {
-                  self.listView?.reloadData()
+                  self.listView.reloadData()
                   return
               }
             self.flickrResult = nil
             self.addEntryToSearchHistory(entry: searchWord)
-            self.listView?.reloadData()
+            self.listView.reloadDataMainThread()
             self.flickrSearch = FlickrSearch(search: searchWord, page: 1)
-            self.fetchData()
+            performSelector(inBackground: #selector(self.fetchData), with: nil)
         }
     }
     
@@ -92,14 +82,6 @@ class FlickrViewModel: BaseViewModel<UICollectionView> {
         }
     }
     
-    
-    func clearCache() {
-        KingfisherManager.shared.cache.clearMemoryCache()
-        KingfisherManager.shared.cache.clearDiskCache()
-        KingfisherManager.shared.cache.cleanExpiredDiskCache()
-    }
-    
-    
 }
 
 extension FlickrViewModel: UICollectionViewDataSource {
@@ -117,11 +99,7 @@ extension FlickrViewModel: UICollectionViewDataSource {
             }
         } else {
             if let imageCell : ImageCollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: ImageCollectionViewCell.identifier, for: indexPath) as? ImageCollectionViewCell {
-                var options : KingfisherOptionsInfo = [.transition(.fade(0.2))]
-                options.append(.processor(OverlayImageProcessor(overlay: .black, fraction: 0.5)))
-                let imageLink = self.flickrResult!.photos.photo[indexPath.row].getImageURL()
-                print(imageLink)
-                imageCell.image.kf.setImage(with: URL(string: imageLink)!, options: options)
+                imageCell.loadImage(url: URL(string: self.flickrResult!.photos.photo[indexPath.row].getImageURL())!)
                 return imageCell
             }
         }
@@ -133,9 +111,9 @@ extension FlickrViewModel: UICollectionViewDataSource {
         guard self.flickrResult!.photos.page <= self.flickrResult!.photos.pages || isSearchModeActive else {
             return
         }
-        if self.flickrResult!.photos.photo.count > 15 && indexPath.row == (self.flickrResult!.photos.photo.count - 15) {
+        if self.flickrResult!.photos.photo.count > 15 && indexPath.row == (self.flickrResult!.photos.photo.count - 30) {
             self.flickrSearch.page = self.flickrSearch.page + 1
-            self.fetchData()
+            performSelector(inBackground: #selector(self.fetchData), with: nil)
         }
     }
 }
@@ -148,10 +126,8 @@ extension FlickrViewModel: UICollectionViewDelegate {
             self.flickrSearch = FlickrSearch(search: cell.searchTextLabel.text!, page: 1)
             self.isSearchModeActive = false
             self.flickrResult = nil
-            DispatchQueue.main.async {
-                self.baseModelDelegation?.updateOwnerUI()
-            }
-            self.fetchData()
+            self.baseModelDelegation.updateOwnerUI()
+            performSelector(inBackground: #selector(self.fetchData), with: nil)
         }
     }
     
