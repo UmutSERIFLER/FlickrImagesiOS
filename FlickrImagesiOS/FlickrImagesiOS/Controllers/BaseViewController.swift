@@ -6,19 +6,20 @@
 //
 
 import UIKit
+import Kingfisher
 
 class BaseViewController<T>: UIViewController, BaseViewModelProtocol {
     
-  
-    var viewModel : BaseViewModel<T>?
+    
+    var viewModel : BaseViewModel<T>!
     
     var activityIndicator : UIActivityIndicatorView?
-
+    
     // MARK: View Life Cycle Overrides
     override func viewDidLoad() {
         super.viewDidLoad()
-      
-    
+        
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -32,12 +33,20 @@ class BaseViewController<T>: UIViewController, BaseViewModelProtocol {
     
     func stopActivityIndicator() {
         if self.activityIndicator?.isAnimating ?? false {
-            self.activityIndicator?.stopAnimating()
-            self.activityIndicator?.removeFromSuperview()
-            self.activityIndicator = nil
+            DispatchQueue.main.async {
+                self.activityIndicator?.stopAnimating()
+                self.activityIndicator?.removeFromSuperview()
+                self.activityIndicator = nil
+            }
         }
     }
-
+    
+    override func didReceiveMemoryWarning() {
+        KingfisherManager.shared.cache.clearMemoryCache()
+        KingfisherManager.shared.cache.clearDiskCache()
+        KingfisherManager.shared.cache.cleanExpiredDiskCache()
+    }
+    
     
     // MARK: BaseDelegation
     
@@ -49,5 +58,5 @@ class BaseViewController<T>: UIViewController, BaseViewModelProtocol {
         
     }
     
-  
+    
 }
